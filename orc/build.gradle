@@ -1,36 +1,34 @@
-project(':iceberg-orc') {
-  test {
-    useJUnitPlatform()
+test {
+  useJUnitPlatform()
+}
+dependencies {
+  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  api project(':iceberg-api')
+  implementation project(':iceberg-common')
+  implementation project(':iceberg-core')
+  implementation(libs.avro.avro) {
+    exclude group: 'org.tukaani' // xz compression is not supported
   }
-  dependencies {
-    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-    api project(':iceberg-api')
-    implementation project(':iceberg-common')
-    implementation project(':iceberg-core')
-    implementation(libs.avro.avro) {
-      exclude group: 'org.tukaani' // xz compression is not supported
-    }
 
-    implementation("${libs.orc.core.get().module}:${libs.versions.orc.get()}:nohive") {
-      exclude group: 'org.apache.hadoop'
-      exclude group: 'commons-lang'
-      // These artifacts are shaded and included in the orc-core fat jar
-      exclude group: 'com.google.protobuf', module: 'protobuf-java'
-      exclude group: 'org.apache.hive', module: 'hive-storage-api'
-    }
-
-    compileOnly(libs.hadoop3.common) {
-      exclude group: 'commons-beanutils'
-      exclude group: 'org.apache.avro', module: 'avro'
-      exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-    }
-    compileOnly(libs.hadoop3.client) {
-      exclude group: 'org.apache.avro', module: 'avro'
-    }
-
-    testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-    testImplementation project(':iceberg-common')
-    testImplementation libs.orc.tools
+  implementation("${libs.orc.core.get().module}:${libs.versions.orc.get()}:nohive") {
+    exclude group: 'org.apache.hadoop'
+    exclude group: 'commons-lang'
+    // These artifacts are shaded and included in the orc-core fat jar
+    exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    exclude group: 'org.apache.hive', module: 'hive-storage-api'
   }
+
+  compileOnly(libs.hadoop3.common) {
+    exclude group: 'commons-beanutils'
+    exclude group: 'org.apache.avro', module: 'avro'
+    exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+  }
+  compileOnly(libs.hadoop3.client) {
+    exclude group: 'org.apache.avro', module: 'avro'
+  }
+
+  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(':iceberg-common')
+  testImplementation libs.orc.tools
 }

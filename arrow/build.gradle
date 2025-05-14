@@ -1,39 +1,37 @@
-project(':iceberg-arrow') {
-  test {
-    useJUnitPlatform()
+test {
+  useJUnitPlatform()
+}
+dependencies {
+  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  api project(':iceberg-api')
+  implementation project(':iceberg-core')
+  implementation project(':iceberg-parquet')
+
+  implementation(libs.arrow.vector) {
+    exclude group: 'io.netty', module: 'netty-buffer'
+    exclude group: 'io.netty', module: 'netty-common'
+    exclude group: 'com.google.code.findbugs', module: 'jsr305'
   }
-  dependencies {
-    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-    api project(':iceberg-api')
-    implementation project(':iceberg-core')
-    implementation project(':iceberg-parquet')
-
-    implementation(libs.arrow.vector) {
-      exclude group: 'io.netty', module: 'netty-buffer'
-      exclude group: 'io.netty', module: 'netty-common'
-      exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    }
-    implementation(libs.arrow.memory.netty) {
-      exclude group: 'com.google.code.findbugs', module: 'jsr305'
-      exclude group: 'io.netty', module: 'netty-common'
-      exclude group: 'io.netty', module: 'netty-buffer'
-    }
-
-    runtimeOnly libs.netty.buffer
-
-    implementation(libs.parquet.avro) {
-      exclude group: 'org.apache.avro', module: 'avro'
-      // already shaded by Parquet
-      exclude group: 'it.unimi.dsi'
-      exclude group: 'org.codehaus.jackson'
-    }
-
-    testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-    // To run ArrowReaderTest test cases, :netty-common is needed.
-    // We import :netty-common through :arrow-memory-netty
-    // so that the same version as used by the :arrow-memory-netty module is picked.
-    testImplementation libs.arrow.memory.netty
-    testImplementation libs.hadoop3.common
-    testImplementation libs.hadoop3.mapreduce.client.core
+  implementation(libs.arrow.memory.netty) {
+    exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    exclude group: 'io.netty', module: 'netty-common'
+    exclude group: 'io.netty', module: 'netty-buffer'
   }
+
+  runtimeOnly libs.netty.buffer
+
+  implementation(libs.parquet.avro) {
+    exclude group: 'org.apache.avro', module: 'avro'
+    // already shaded by Parquet
+    exclude group: 'it.unimi.dsi'
+    exclude group: 'org.codehaus.jackson'
+  }
+
+  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  // To run ArrowReaderTest test cases, :netty-common is needed.
+  // We import :netty-common through :arrow-memory-netty
+  // so that the same version as used by the :arrow-memory-netty module is picked.
+  testImplementation libs.arrow.memory.netty
+  testImplementation libs.hadoop3.common
+  testImplementation libs.hadoop3.mapreduce.client.core
 }

@@ -1,6 +1,3 @@
-// core/build.gradle
-// project.name:iceberg-core
-
 test {
   useJUnitPlatform()
 }
