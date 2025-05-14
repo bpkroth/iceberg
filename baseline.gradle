@@ -24,7 +24,7 @@ allprojects {
 }
 
 subprojects {
-  if (it.name == 'iceberg-bom') {
+  if (it.name == 'bom') {
     // the BOM does not build anything, the below plugins are not necessary (and can fail)
     return
   }

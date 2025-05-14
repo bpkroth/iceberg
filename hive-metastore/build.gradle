@@ -3,10 +3,10 @@ test {
 }
 
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  implementation project(':iceberg-core')
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  implementation project(':core')
+  api project(':api')
+  implementation project(':common')
   annotationProcessor libs.immutables.value
   compileOnly libs.immutables.value
 
@@ -67,7 +67,7 @@ dependencies {
     exclude group: 'org.slf4j', module: 'slf4j-log4j12'
   }
 
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
   testImplementation libs.awaitility
 }

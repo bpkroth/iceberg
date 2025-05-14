@@ -2,10 +2,10 @@ test {
   useJUnitPlatform()
 }
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
-  implementation project(':iceberg-core')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':common')
+  implementation project(':core')
   annotationProcessor libs.immutables.value
   compileOnly libs.immutables.value
   implementation libs.caffeine
@@ -42,7 +42,7 @@ dependencies {
   testImplementation("software.amazon.awssdk:iam")
   testImplementation("software.amazon.awssdk:s3control")
   testImplementation("software.amazon.s3.accessgrants:aws-s3-accessgrants-java-plugin")
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
   testImplementation libs.esotericsoftware.kryo
   testImplementation libs.sqlite.jdbc
   testImplementation libs.testcontainers
@@ -52,7 +52,7 @@ dependencies {
   testImplementation libs.mockserver.netty
   testImplementation libs.mockserver.client.java
   testImplementation libs.jaxb.api
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
   testImplementation libs.awaitility
   testImplementation libs.jetty.servlet
 }

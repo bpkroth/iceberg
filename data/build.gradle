@@ -1,9 +1,9 @@
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-core')
-  compileOnly project(':iceberg-parquet')
-  compileOnly project(':iceberg-orc')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':core')
+  compileOnly project(':parquet')
+  compileOnly project(':orc')
   compileOnly(libs.hadoop3.common) {
     exclude group: 'commons-beanutils'
     exclude group: 'org.apache.avro', module: 'avro'
@@ -32,8 +32,8 @@ dependencies {
     exclude group: 'org.slf4j', module: 'slf4j-log4j12'
   }
 
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
   testImplementation libs.junit.vintage.engine
 }
 

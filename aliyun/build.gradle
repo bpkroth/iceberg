@@ -2,10 +2,10 @@ test {
  useJUnitPlatform()
 }
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-core')
-  implementation project(':iceberg-common')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':core')
+  implementation project(':common')
 
   compileOnly libs.aliyun.sdk.oss
   compileOnly libs.jaxb.api
@@ -20,5 +20,5 @@ dependencies {
 
   testImplementation platform(libs.jackson.bom)
   testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml"
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
 }

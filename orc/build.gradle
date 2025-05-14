@@ -2,10 +2,10 @@ test {
   useJUnitPlatform()
 }
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
-  implementation project(':iceberg-core')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':common')
+  implementation project(':core')
   implementation(libs.avro.avro) {
     exclude group: 'org.tukaani' // xz compression is not supported
   }
@@ -27,8 +27,8 @@ dependencies {
     exclude group: 'org.apache.avro', module: 'avro'
   }
 
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-  testImplementation project(':iceberg-common')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
+  testImplementation project(':common')
   testImplementation libs.orc.tools
 }

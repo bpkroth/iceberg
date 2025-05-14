@@ -32,7 +32,7 @@ include 'orc'
 include 'arrow'
 include 'parquet'
 include 'bundled-guava'
-include 'spark'
+//include 'spark'
 include 'hive-metastore'
 include 'nessie'
 include 'gcp'
@@ -44,6 +44,7 @@ include 'delta-lake'
 include 'open-api'
 include 'mr'
 
+/*
 project(':bom').name = 'iceberg-bom'
 project(':api').name = 'iceberg-api'
 project(':common').name = 'iceberg-common'
@@ -69,6 +70,7 @@ project(':snowflake').name = 'iceberg-snowflake'
 project(':delta-lake').name = 'iceberg-delta-lake'
 project(':open-api').name = 'iceberg-open-api'
 project(':mr').name = 'iceberg-mr'
+*/
 
 if (null != System.getProperty("allModules")) {
   System.setProperty("flinkVersions", System.getProperty("knownFlinkVersions"))
@@ -139,29 +141,31 @@ if (flinkVersions.contains("2.0")) {
   project(":iceberg-flink:flink-runtime-2.0").name = "iceberg-flink-runtime-2.0"
 }
 
+/*
 if (sparkVersions.contains("3.4")) {
-  include ":iceberg-spark:spark-3.4_${scalaVersion}"
-  include ":iceberg-spark:spark-extensions-3.4_${scalaVersion}"
-  include ":iceberg-spark:spark-runtime-3.4_${scalaVersion}"
-  project(":iceberg-spark:spark-3.4_${scalaVersion}").projectDir = file('spark/v3.4/spark')
-  project(":iceberg-spark:spark-3.4_${scalaVersion}").name = "iceberg-spark-3.4_${scalaVersion}"
-  project(":iceberg-spark:spark-extensions-3.4_${scalaVersion}").projectDir = file('spark/v3.4/spark-extensions')
-  project(":iceberg-spark:spark-extensions-3.4_${scalaVersion}").name = "iceberg-spark-extensions-3.4_${scalaVersion}"
-  project(":iceberg-spark:spark-runtime-3.4_${scalaVersion}").projectDir = file('spark/v3.4/spark-runtime')
-  project(":iceberg-spark:spark-runtime-3.4_${scalaVersion}").name = "iceberg-spark-runtime-3.4_${scalaVersion}"
+  include ":spark:spark-3.4_${scalaVersion}"
+  include ":spark:spark-extensions-3.4_${scalaVersion}"
+  include ":spark:spark-runtime-3.4_${scalaVersion}"
+  project(":spark:spark-3.4_${scalaVersion}").projectDir = file('spark/v3.4/spark')
+  project(":spark:spark-3.4_${scalaVersion}").name = "iceberg-spark-3.4_${scalaVersion}"
+  project(":spark:spark-extensions-3.4_${scalaVersion}").projectDir = file('spark/v3.4/spark-extensions')
+  project(":spark:spark-extensions-3.4_${scalaVersion}").name = "iceberg-spark-extensions-3.4_${scalaVersion}"
+  project(":spark:spark-runtime-3.4_${scalaVersion}").projectDir = file('spark/v3.4/spark-runtime')
+  project(":spark:spark-runtime-3.4_${scalaVersion}").name = "iceberg-spark-runtime-3.4_${scalaVersion}"
 }
 
 if (sparkVersions.contains("3.5")) {
-  include ":iceberg-spark:spark-3.5_${scalaVersion}"
-  include ":iceberg-spark:spark-extensions-3.5_${scalaVersion}"
-  include ":iceberg-spark:spark-runtime-3.5_${scalaVersion}"
-  project(":iceberg-spark:spark-3.5_${scalaVersion}").projectDir = file('spark/v3.5/spark')
-  project(":iceberg-spark:spark-3.5_${scalaVersion}").name = "iceberg-spark-3.5_${scalaVersion}"
-  project(":iceberg-spark:spark-extensions-3.5_${scalaVersion}").projectDir = file('spark/v3.5/spark-extensions')
-  project(":iceberg-spark:spark-extensions-3.5_${scalaVersion}").name = "iceberg-spark-extensions-3.5_${scalaVersion}"
-  project(":iceberg-spark:spark-runtime-3.5_${scalaVersion}").projectDir = file('spark/v3.5/spark-runtime')
-  project(":iceberg-spark:spark-runtime-3.5_${scalaVersion}").name = "iceberg-spark-runtime-3.5_${scalaVersion}"
+  include ":spark:spark-3.5_${scalaVersion}"
+  include ":spark:spark-extensions-3.5_${scalaVersion}"
+  include ":spark:spark-runtime-3.5_${scalaVersion}"
+  project(":spark:spark-3.5_${scalaVersion}").projectDir = file('spark/v3.5/spark')
+  project(":spark:spark-3.5_${scalaVersion}").name = "iceberg-spark-3.5_${scalaVersion}"
+  project(":spark:spark-extensions-3.5_${scalaVersion}").projectDir = file('spark/v3.5/spark-extensions')
+  project(":spark:spark-extensions-3.5_${scalaVersion}").name = "iceberg-spark-extensions-3.5_${scalaVersion}"
+  project(":spark:spark-runtime-3.5_${scalaVersion}").projectDir = file('spark/v3.5/spark-runtime')
+  project(":spark:spark-runtime-3.5_${scalaVersion}").name = "iceberg-spark-runtime-3.5_${scalaVersion}"
 }
+*/
 
 if (kafkaVersions.contains("3")) {
   include 'kafka-connect'

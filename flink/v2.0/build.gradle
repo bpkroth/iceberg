@@ -23,14 +23,14 @@ String scalaVersion = System.getProperty("scalaVersion") != null ? System.getPro
 project(":iceberg-flink:iceberg-flink-${flinkMajorVersion}") {
 
   dependencies {
-    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-    api project(':iceberg-api')
-    implementation project(':iceberg-common')
-    implementation project(':iceberg-core')
-    api project(':iceberg-data')
-    implementation project(':iceberg-orc')
-    implementation project(':iceberg-parquet')
-    implementation project(':iceberg-hive-metastore')
+    implementation project(path: ':bundled-guava', configuration: 'shadow')
+    api project(':api')
+    implementation project(':common')
+    implementation project(':core')
+    api project(':data')
+    implementation project(':orc')
+    implementation project(':parquet')
+    implementation project(':hive-metastore')
 
     compileOnly libs.flink20.avro
     // for dropwizard histogram metrics implementation
@@ -79,10 +79,10 @@ project(":iceberg-flink:iceberg-flink-${flinkMajorVersion}") {
       exclude group: 'junit'
     }
 
-    testImplementation project(path: ':iceberg-hive-metastore', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-data', configuration: 'testArtifacts')
+    testImplementation project(path: ':hive-metastore', configuration: 'testArtifacts')
+    testImplementation project(path: ':api', configuration: 'testArtifacts')
+    testImplementation project(path: ':core', configuration: 'testArtifacts')
+    testImplementation project(path: ':data', configuration: 'testArtifacts')
 
     // By default, hive-exec is a fat/uber jar and it exports a guava library
     // that's really old. We use the core classifier to be able to override our guava
@@ -156,15 +156,15 @@ project(":iceberg-flink:iceberg-flink-runtime-${flinkMajorVersion}") {
     implementation(project(":iceberg-flink:iceberg-flink-${flinkMajorVersion}")) {
       exclude group: 'org.apache.flink'
     }
-    implementation project(':iceberg-aws')
-    implementation project(':iceberg-azure')
-    implementation(project(':iceberg-aliyun')) {
+    implementation project(':aws')
+    implementation project(':azure')
+    implementation(project(':aliyun')) {
       exclude group: 'edu.umd.cs.findbugs', module: 'findbugs'
       exclude group: 'org.apache.httpcomponents', module: 'httpclient'
       exclude group: 'commons-logging', module: 'commons-logging'
     }
-    implementation project(':iceberg-gcp')
-    implementation(project(':iceberg-nessie')) {
+    implementation project(':gcp')
+    implementation(project(':nessie')) {
       exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
 
@@ -173,12 +173,12 @@ project(":iceberg-flink:iceberg-flink-runtime-${flinkMajorVersion}") {
 
     // for integration testing with the flink-runtime-jar
     // all of those dependencies are required because the integration test extends FlinkTestBase
-    integrationCompileOnly project(':iceberg-api')
+    integrationCompileOnly project(':api')
     integrationImplementation libs.junit.vintage.engine
     integrationImplementation libs.assertj.core
     integrationImplementation project(path: ":iceberg-flink:iceberg-flink-${flinkMajorVersion}", configuration: "testArtifacts")
-    integrationImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-    integrationImplementation project(path: ':iceberg-hive-metastore', configuration: 'testArtifacts')
+    integrationImplementation project(path: ':api', configuration: 'testArtifacts')
+    integrationImplementation project(path: ':hive-metastore', configuration: 'testArtifacts')
     integrationImplementation(libs.flink20.test.utils) {
       exclude group: "org.apache.curator", module: 'curator-test'
       exclude group: 'junit'

@@ -3,19 +3,19 @@ test {
 }
 
 dependencies {
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
-  implementation project(':iceberg-core')
+  api project(':api')
+  implementation project(':common')
+  implementation project(':core')
 
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
 
   implementation platform(libs.google.libraries.bom)
   compileOnly "com.google.cloud:google-cloud-storage"
   implementation "com.google.cloud:google-cloud-bigquery"
   implementation "com.google.cloud:google-cloud-core"
 
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
 
   testImplementation(libs.hadoop3.common) {
     exclude group: 'org.apache.avro', module: 'avro'

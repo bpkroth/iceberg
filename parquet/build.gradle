@@ -2,10 +2,10 @@ test {
   useJUnitPlatform()
 }
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-core')
-  implementation project(':iceberg-common')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':core')
+  implementation project(':common')
 
   implementation(libs.parquet.avro) {
     exclude group: 'org.apache.avro', module: 'avro'
@@ -19,6 +19,6 @@ dependencies {
     exclude group: 'org.apache.avro', module: 'avro'
   }
 
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
 }

@@ -4,26 +4,26 @@ apply plugin: 'com.gradleup.shadow'
 build.dependsOn shadowJar
 
 dependencies {
-  testImplementation project(':iceberg-api')
-  testImplementation project(':iceberg-core')
-  testImplementation project(':iceberg-core').sourceSets.test.runtimeClasspath
-  testImplementation(testFixtures(project(':iceberg-open-api')))
+  testImplementation project(':api')
+  testImplementation project(':core')
+  testImplementation project(':core').sourceSets.test.runtimeClasspath
+  testImplementation(testFixtures(project(':open-api')))
 
   testImplementation libs.junit.jupiter
   testImplementation libs.junit.suite.api
   testImplementation libs.junit.suite.engine
   testImplementation libs.assertj.core
 
-  testImplementation project(':iceberg-aws-bundle')
-  testImplementation project(':iceberg-gcp-bundle')
-  testImplementation project(':iceberg-azure-bundle')
+  testImplementation project(':aws-bundle')
+  testImplementation project(':gcp-bundle')
+  testImplementation project(':azure-bundle')
 
-  testFixturesImplementation project(':iceberg-api')
-  testFixturesImplementation project(':iceberg-core')
-  testFixturesImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-  testFixturesImplementation project(':iceberg-aws')
-  testFixturesImplementation project(':iceberg-gcp')
-  testFixturesImplementation project(':iceberg-azure')
+  testFixturesImplementation project(':api')
+  testFixturesImplementation project(':core')
+  testFixturesImplementation project(path: ':core', configuration: 'testArtifacts')
+  testFixturesImplementation project(':aws')
+  testFixturesImplementation project(':gcp')
+  testFixturesImplementation project(':azure')
   testFixturesImplementation(libs.hadoop3.common) {
     exclude group: 'org.slf4j'
     exclude group: 'ch.qos.reload4j'
@@ -45,7 +45,7 @@ dependencies {
     exclude group: 'commons-cli', module: 'commons-cli'
     exclude group: 'com.github.pjfanning', module: 'jersey-json'
   }
-  testFixturesImplementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  testFixturesImplementation project(path: ':bundled-guava', configuration: 'shadow')
   testFixturesImplementation libs.junit.jupiter
 
   testFixturesImplementation libs.slf4j.api
@@ -57,9 +57,9 @@ dependencies {
 
   testFixturesCompileOnly libs.apiguardian
 
-  testFixturesRuntimeOnly project(':iceberg-aws-bundle')
-  testFixturesRuntimeOnly project(':iceberg-azure-bundle')
-  testFixturesRuntimeOnly project(':iceberg-gcp-bundle')
+  testFixturesRuntimeOnly project(':aws-bundle')
+  testFixturesRuntimeOnly project(':azure-bundle')
+  testFixturesRuntimeOnly project(':gcp-bundle')
 }
 
 test {

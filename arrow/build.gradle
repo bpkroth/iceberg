@@ -2,10 +2,10 @@ test {
   useJUnitPlatform()
 }
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-core')
-  implementation project(':iceberg-parquet')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':core')
+  implementation project(':parquet')
 
   implementation(libs.arrow.vector) {
     exclude group: 'io.netty', module: 'netty-buffer'
@@ -27,7 +27,7 @@ dependencies {
     exclude group: 'org.codehaus.jackson'
   }
 
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
   // To run ArrowReaderTest test cases, :netty-common is needed.
   // We import :netty-common through :arrow-memory-netty
   // so that the same version as used by the :arrow-memory-netty module is picked.

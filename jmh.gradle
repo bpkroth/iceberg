@@ -26,7 +26,7 @@ apply from: "versions-settings.gradle"
 //gradle.projectsEvaluated {
   def jmhProjects = []
   println "All projects: " + rootProject.allprojects*.path
-  jmhProjects.addAll([project(":iceberg-core"), project(":iceberg-data")])
+  //jmhProjects.addAll([project(":core"), project(":data")])
 
   if (flinkVersions.contains("1.19")) {
     jmhProjects.add(project(":iceberg-flink:iceberg-flink-1.19"))
@@ -40,15 +40,17 @@ apply from: "versions-settings.gradle"
     jmhProjects.add(project(":iceberg-flink:iceberg-flink-2.0"))
   }
 
+  /*
   if (sparkVersions.contains("3.4")) {
-    jmhProjects.add(project(":iceberg-spark:iceberg-spark-3.4_${scalaVersion}"))
-    jmhProjects.add(project(":iceberg-spark:iceberg-spark-extensions-3.4_${scalaVersion}"))
+    jmhProjects.add(project(":spark:spark-3.4_${scalaVersion}"))
+    jmhProjects.add(project(":spark:spark-extensions-3.4_${scalaVersion}"))
   }
 
   if (sparkVersions.contains("3.5")) {
-    jmhProjects.add(project(":iceberg-spark:iceberg-spark-3.5_${scalaVersion}"))
-    jmhProjects.add(project(":iceberg-spark:iceberg-spark-extensions-3.5_${scalaVersion}"))
+    jmhProjects.add(project(":spark:spark-3.5_${scalaVersion}"))
+    jmhProjects.add(project(":spark:spark-extensions-3.5_${scalaVersion}"))
   }
+  */
 
   configure(jmhProjects) {
     apply plugin: 'me.champeau.jmh'

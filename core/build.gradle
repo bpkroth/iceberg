@@ -3,9 +3,9 @@ test {
 }
 
 dependencies {
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':common')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
   annotationProcessor libs.immutables.value
   compileOnly libs.immutables.value
 
@@ -31,7 +31,7 @@ dependencies {
   testImplementation libs.mockserver.netty
   testImplementation libs.mockserver.client.java
   testImplementation libs.sqlite.jdbc
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
   testImplementation libs.esotericsoftware.kryo
   testImplementation libs.guava.testlib
   testImplementation libs.awaitility

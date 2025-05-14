@@ -22,8 +22,8 @@ if (project.hasProperty('release') && jdkVersion != '11') {
 }
 
 subprojects {
-  def isBom = it.name == 'iceberg-bom'
-  def isOpenApi = it.name == 'iceberg-open-api'
+  def isBom = it.name == 'bom'
+  def isOpenApi = it.name == 'open-api'
 
   apply plugin: 'maven-publish'
   apply plugin: 'signing'

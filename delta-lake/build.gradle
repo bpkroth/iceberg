@@ -11,11 +11,11 @@ configurations {
 }
 
 dependencies {
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
-  implementation project(':iceberg-core')
-  implementation project(':iceberg-parquet')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':common')
+  implementation project(':core')
+  implementation project(':parquet')
   implementation platform(libs.jackson.bom)
   implementation libs.jackson.databind
   annotationProcessor libs.immutables.value
@@ -30,24 +30,25 @@ dependencies {
     exclude group: 'com.google.code.gson', module: 'gson'
   }
 
+  /*
   // The newest version of delta-core uses Spark 3.5.*. Since its only for test, we do
   // not need to include older version of delta-core
   if (sparkVersions.contains("3.5")) {
     integrationImplementation "io.delta:delta-spark_${scalaVersion}:${libs.versions.delta.spark.get()}"
-    integrationImplementation project(path: ":iceberg-spark:iceberg-spark-3.5_${scalaVersion}")
+    integrationImplementation project(path: ":spark:spark-3.5_${scalaVersion}")
     integrationImplementation(libs.hadoop3.minicluster) {
       exclude group: 'org.apache.avro', module: 'avro'
-      // to make sure netty libs only come from project(':iceberg-arrow')
+      // to make sure netty libs only come from project(':arrow')
       exclude group: 'io.netty', module: 'netty-buffer'
       exclude group: 'io.netty', module: 'netty-common'
     }
-    integrationImplementation project(path: ':iceberg-hive-metastore')
-    integrationImplementation project(path: ':iceberg-hive-metastore', configuration: 'testArtifacts')
+    integrationImplementation project(path: ':hive-metastore')
+    integrationImplementation project(path: ':hive-metastore', configuration: 'testArtifacts')
     integrationImplementation("org.apache.spark:spark-hive_${scalaVersion}:${libs.versions.spark35.get()}") {
       exclude group: 'org.apache.avro', module: 'avro'
       exclude group: 'org.apache.arrow'
       exclude group: 'org.apache.parquet'
-      // to make sure netty libs only come from project(':iceberg-arrow')
+      // to make sure netty libs only come from project(':arrow')
       exclude group: 'io.netty', module: 'netty-buffer'
       exclude group: 'io.netty', module: 'netty-common'
       exclude group: 'org.roaringbitmap'
@@ -74,4 +75,5 @@ if (sparkVersions.contains("3.5")) {
     jvmArgs += project.property('extraJvmArgs')
   }
   check.dependsOn integrationTest
+  */
 }

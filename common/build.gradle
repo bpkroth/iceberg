@@ -1,20 +1,20 @@
-project(':iceberg-common') {
+project(':common') {
   test {
     useJUnitPlatform()
   }
   dependencies {
-    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation project(path: ':bundled-guava', configuration: 'shadow')
   }
 }
 
-project(':iceberg-core') {
+project(':core') {
   test {
     useJUnitPlatform()
   }
   dependencies {
-    api project(':iceberg-api')
-    implementation project(':iceberg-common')
-    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    api project(':api')
+    implementation project(':common')
+    implementation project(path: ':bundled-guava', configuration: 'shadow')
     annotationProcessor libs.immutables.value
     compileOnly libs.immutables.value
 
@@ -40,7 +40,7 @@ project(':iceberg-core') {
     testImplementation libs.mockserver.netty
     testImplementation libs.mockserver.client.java
     testImplementation libs.sqlite.jdbc
-    testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+    testImplementation project(path: ':api', configuration: 'testArtifacts')
     testImplementation libs.esotericsoftware.kryo
     testImplementation libs.guava.testlib
     testImplementation libs.awaitility

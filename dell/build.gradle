@@ -2,12 +2,12 @@ test {
   useJUnitPlatform()
 }
 dependencies {
-  implementation project(':iceberg-core')
-  implementation project(':iceberg-common')
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  implementation project(':core')
+  implementation project(':common')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
   compileOnly libs.object.client.bundle
 
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
   testImplementation libs.jaxb.api
   testImplementation libs.activation
   testImplementation libs.jaxb.runtime

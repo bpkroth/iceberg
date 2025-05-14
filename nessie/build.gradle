@@ -3,10 +3,10 @@ test {
 }
 
 dependencies {
-  api project(':iceberg-api')
-  implementation project(':iceberg-common')
-  implementation project(':iceberg-core')
-  implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+  api project(':api')
+  implementation project(':common')
+  implementation project(':core')
+  implementation project(path: ':bundled-guava', configuration: 'shadow')
   implementation(libs.nessie.client) {
     exclude group: 'com.fasterxml.jackson'
   }
@@ -26,8 +26,8 @@ dependencies {
 
   testImplementation libs.avro.avro
 
-  testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-  testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+  testImplementation project(path: ':api', configuration: 'testArtifacts')
+  testImplementation project(path: ':core', configuration: 'testArtifacts')
 
   // Only there to prevent "warning: unknown enum constant SchemaType.OBJECT" compile messages
   testCompileOnly libs.microprofile.openapi.api

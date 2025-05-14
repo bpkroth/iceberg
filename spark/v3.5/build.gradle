@@ -21,9 +21,9 @@ String sparkMajorVersion = '3.5'
 String scalaVersion = System.getProperty("scalaVersion") != null ? System.getProperty("scalaVersion") : System.getProperty("defaultScalaVersion")
 
 def sparkProjects = [
-    project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}"),
-    project(":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVersion}"),
-    project(":iceberg-spark:iceberg-spark-runtime-${sparkMajorVersion}_${scalaVersion}"),
+    project(":spark:spark-${sparkMajorVersion}_${scalaVersion}"),
+    project(":spark:spark-extensions-${sparkMajorVersion}_${scalaVersion}"),
+    project(":spark:spark-runtime-${sparkMajorVersion}_${scalaVersion}"),
 ]
 
 configure(sparkProjects) {
@@ -38,7 +38,7 @@ configure(sparkProjects) {
   }
 }
 
-project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}") {
+project(":spark:spark-${sparkMajorVersion}_${scalaVersion}") {
   apply plugin: 'scala'
   apply plugin: 'com.github.alisiikh.scalastyle'
 
@@ -50,16 +50,16 @@ project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}") {
   }
 
   dependencies {
-    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-    api project(':iceberg-api')
+    implementation project(path: ':bundled-guava', configuration: 'shadow')
+    api project(':api')
     annotationProcessor libs.immutables.value
     compileOnly libs.immutables.value
-    implementation project(':iceberg-common')
-    implementation project(':iceberg-core')
-    implementation project(':iceberg-data')
-    implementation project(':iceberg-orc')
-    implementation project(':iceberg-parquet')
-    implementation project(':iceberg-arrow')
+    implementation project(':common')
+    implementation project(':core')
+    implementation project(':data')
+    implementation project(':orc')
+    implementation project(':parquet')
+    implementation project(':arrow')
     implementation("org.scala-lang.modules:scala-collection-compat_${scalaVersion}:${libs.versions.scala.collection.compat.get()}")
     implementation("org.apache.datasketches:datasketches-java:${libs.versions.datasketches.get()}")
 
@@ -69,7 +69,7 @@ project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}") {
       exclude group: 'org.apache.avro', module: 'avro'
       exclude group: 'org.apache.arrow'
       exclude group: 'org.apache.parquet'
-      // to make sure netty libs only come from project(':iceberg-arrow')
+      // to make sure netty libs only come from project(':arrow')
       exclude group: 'io.netty', module: 'netty-buffer'
       exclude group: 'io.netty', module: 'netty-common'
       exclude group: 'org.roaringbitmap'
@@ -98,16 +98,16 @@ project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}") {
 
     testImplementation(libs.hadoop3.minicluster) {
       exclude group: 'org.apache.avro', module: 'avro'
-      // to make sure netty libs only come from project(':iceberg-arrow')
+      // to make sure netty libs only come from project(':arrow')
       exclude group: 'io.netty', module: 'netty-buffer'
       exclude group: 'io.netty', module: 'netty-common'
     }
-    testImplementation project(path: ':iceberg-hive-metastore')
-    testImplementation project(path: ':iceberg-hive-metastore', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-data', configuration: 'testArtifacts')
-    testImplementation (project(path: ':iceberg-open-api', configuration: 'testFixturesRuntimeElements')) {
+    testImplementation project(path: ':hive-metastore')
+    testImplementation project(path: ':hive-metastore', configuration: 'testArtifacts')
+    testImplementation project(path: ':api', configuration: 'testArtifacts')
+    testImplementation project(path: ':core', configuration: 'testArtifacts')
+    testImplementation project(path: ':data', configuration: 'testArtifacts')
+    testImplementation (project(path: ':open-api', configuration: 'testFixturesRuntimeElements')) {
       transitive = false
     }
     testImplementation libs.sqlite.jdbc
@@ -126,7 +126,7 @@ project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}") {
   }
 }
 
-project(":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVersion}") {
+project(":spark:spark-extensions-${sparkMajorVersion}_${scalaVersion}") {
   apply plugin: 'java-library'
   apply plugin: 'scala'
   apply plugin: 'com.github.alisiikh.scalastyle'
@@ -150,31 +150,31 @@ project(":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVer
     implementation libs.roaringbitmap
 
     compileOnly "org.scala-lang:scala-library"
-    compileOnly project(path: ':iceberg-bundled-guava', configuration: 'shadow')
-    compileOnly project(':iceberg-api')
-    compileOnly project(':iceberg-core')
-    compileOnly project(':iceberg-common')
-    compileOnly project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}")
+    compileOnly project(path: ':bundled-guava', configuration: 'shadow')
+    compileOnly project(':api')
+    compileOnly project(':core')
+    compileOnly project(':common')
+    compileOnly project(":spark:spark-${sparkMajorVersion}_${scalaVersion}")
     compileOnly("org.apache.spark:spark-hive_${scalaVersion}:${libs.versions.spark35.get()}") {
       exclude group: 'org.apache.avro', module: 'avro'
       exclude group: 'org.apache.arrow'
       exclude group: 'org.apache.parquet'
-      // to make sure netty libs only come from project(':iceberg-arrow')
+      // to make sure netty libs only come from project(':arrow')
       exclude group: 'io.netty', module: 'netty-buffer'
       exclude group: 'io.netty', module: 'netty-common'
       exclude group: 'org.roaringbitmap'
     }
     compileOnly libs.errorprone.annotations
 
-    testImplementation project(path: ':iceberg-data')
-    testImplementation project(path: ':iceberg-parquet')
-    testImplementation project(path: ':iceberg-hive-metastore')
-    testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-data', configuration: 'testArtifacts')
-    testImplementation project(path: ':iceberg-hive-metastore', configuration: 'testArtifacts')
-    testImplementation project(path: ":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}", configuration: 'testArtifacts')
-    testImplementation (project(path: ':iceberg-open-api', configuration: 'testFixturesRuntimeElements')) {
+    testImplementation project(path: ':data')
+    testImplementation project(path: ':parquet')
+    testImplementation project(path: ':hive-metastore')
+    testImplementation project(path: ':api', configuration: 'testArtifacts')
+    testImplementation project(path: ':core', configuration: 'testArtifacts')
+    testImplementation project(path: ':data', configuration: 'testArtifacts')
+    testImplementation project(path: ':hive-metastore', configuration: 'testArtifacts')
+    testImplementation project(path: ":spark:spark-${sparkMajorVersion}_${scalaVersion}", configuration: 'testArtifacts')
+    testImplementation (project(path: ':open-api', configuration: 'testFixturesRuntimeElements')) {
       transitive = false
     }
     // runtime dependencies for running REST Catalog based integration test
@@ -201,7 +201,7 @@ project(":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVer
   }
 }
 
-project(":iceberg-spark:iceberg-spark-runtime-${sparkMajorVersion}_${scalaVersion}") {
+project(":spark:spark-runtime-${sparkMajorVersion}_${scalaVersion}") {
   apply plugin: 'com.gradleup.shadow'
 
   tasks.jar.dependsOn tasks.shadowJar
@@ -235,22 +235,22 @@ project(":iceberg-spark:iceberg-spark-runtime-${sparkMajorVersion}_${scalaVersio
   }
 
   dependencies {
-    api project(':iceberg-api')
-    implementation project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}")
-    implementation project(":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVersion}")
-    implementation project(':iceberg-aws')
-    implementation project(':iceberg-azure')
-    implementation(project(':iceberg-aliyun')) {
+    api project(':api')
+    implementation project(":spark:spark-${sparkMajorVersion}_${scalaVersion}")
+    implementation project(":spark:spark-extensions-${sparkMajorVersion}_${scalaVersion}")
+    implementation project(':aws')
+    implementation project(':azure')
+    implementation(project(':aliyun')) {
       exclude group: 'edu.umd.cs.findbugs', module: 'findbugs'
       exclude group: 'org.apache.httpcomponents', module: 'httpclient'
       exclude group: 'commons-logging', module: 'commons-logging'
     }
-    implementation project(':iceberg-gcp')
-    implementation project(':iceberg-hive-metastore')
-    implementation(project(':iceberg-nessie')) {
+    implementation project(':gcp')
+    implementation project(':hive-metastore')
+    implementation(project(':nessie')) {
       exclude group: 'com.google.code.findbugs', module: 'jsr305'
     }
-    implementation (project(':iceberg-snowflake')) {
+    implementation (project(':snowflake')) {
       exclude group: 'net.snowflake' , module: 'snowflake-jdbc'
     }
 
@@ -261,25 +261,25 @@ project(":iceberg-spark:iceberg-spark-runtime-${sparkMajorVersion}_${scalaVersio
     integrationImplementation libs.junit.platform.launcher
     integrationImplementation libs.slf4j.simple
     integrationImplementation libs.assertj.core
-    integrationImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-    integrationImplementation project(path: ':iceberg-hive-metastore', configuration: 'testArtifacts')
-    integrationImplementation project(path: ":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}", configuration: 'testArtifacts')
-    integrationImplementation project(path: ":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVersion}", configuration: 'testArtifacts')
+    integrationImplementation project(path: ':api', configuration: 'testArtifacts')
+    integrationImplementation project(path: ':hive-metastore', configuration: 'testArtifacts')
+    integrationImplementation project(path: ":spark:spark-${sparkMajorVersion}_${scalaVersion}", configuration: 'testArtifacts')
+    integrationImplementation project(path: ":spark:spark-extensions-${sparkMajorVersion}_${scalaVersion}", configuration: 'testArtifacts')
 
     // runtime dependencies for running Hive Catalog based integration test
-    integrationRuntimeOnly project(':iceberg-hive-metastore')
+    integrationRuntimeOnly project(':hive-metastore')
     // runtime dependencies for running REST Catalog based integration test
-    integrationRuntimeOnly project(path: ':iceberg-core', configuration: 'testArtifacts')
-    integrationRuntimeOnly (project(path: ':iceberg-open-api', configuration: 'testFixturesRuntimeElements')) {
+    integrationRuntimeOnly project(path: ':core', configuration: 'testArtifacts')
+    integrationRuntimeOnly (project(path: ':open-api', configuration: 'testFixturesRuntimeElements')) {
       transitive = false
     }
     integrationRuntimeOnly libs.jetty.servlet
     integrationRuntimeOnly libs.sqlite.jdbc
 
     // Not allowed on our classpath, only the runtime jar is allowed
-    integrationCompileOnly project(":iceberg-spark:iceberg-spark-extensions-${sparkMajorVersion}_${scalaVersion}")
-    integrationCompileOnly project(":iceberg-spark:iceberg-spark-${sparkMajorVersion}_${scalaVersion}")
-    integrationCompileOnly project(':iceberg-api')
+    integrationCompileOnly project(":spark:spark-extensions-${sparkMajorVersion}_${scalaVersion}")
+    integrationCompileOnly project(":spark:spark-${sparkMajorVersion}_${scalaVersion}")
+    integrationCompileOnly project(':api')
   }
 
   shadowJar {
