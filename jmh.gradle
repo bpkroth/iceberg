@@ -23,10 +23,10 @@ if (jdkVersion != '11' && jdkVersion != '17' && jdkVersion != '21') {
 
 apply from: "versions-settings.gradle"
 
-gradle.projectsEvaluated {
+//gradle.projectsEvaluated {
   def jmhProjects = []
   println "All projects: " + rootProject.allprojects*.path
-  jmhProjects.addAll([project(":core"), project(":data")])
+  jmhProjects.addAll([project(":iceberg-core"), project(":iceberg-data")])
 
   if (flinkVersions.contains("1.19")) {
     jmhProjects.add(project(":iceberg-flink:iceberg-flink-1.19"))
@@ -82,4 +82,4 @@ gradle.projectsEvaluated {
 
     tasks.jmh.finalizedBy tasks.jmhReport
   }
-}
+  //}
