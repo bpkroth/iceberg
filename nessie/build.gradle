@@ -1,0 +1,36 @@
+project(':iceberg-nessie') {
+  test {
+    useJUnitPlatform()
+  }
+
+  dependencies {
+    api project(':iceberg-api')
+    implementation project(':iceberg-common')
+    implementation project(':iceberg-core')
+    implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation(libs.nessie.client) {
+      exclude group: 'com.fasterxml.jackson'
+    }
+    implementation platform(libs.jackson.bom)
+    implementation libs.jackson.core
+    implementation libs.jackson.databind
+
+    compileOnly libs.hadoop3.common
+    // Only there to prevent "warning: unknown enum constant SchemaType.OBJECT" compile messages
+    compileOnly libs.microprofile.openapi.api
+
+    testImplementation libs.nessie.jaxrs.testextension
+    testImplementation libs.nessie.versioned.storage.inmemory.tests
+    testImplementation libs.nessie.versioned.storage.testextension
+    // Need to "pull in" el-api explicitly :(
+    testImplementation libs.jakarta.el.api
+
+    testImplementation libs.avro.avro
+
+    testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
+    testImplementation project(path: ':iceberg-core', configuration: 'testArtifacts')
+
+    // Only there to prevent "warning: unknown enum constant SchemaType.OBJECT" compile messages
+    testCompileOnly libs.microprofile.openapi.api
+  }
+}
