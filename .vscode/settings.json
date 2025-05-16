@@ -1,0 +1,21 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    // Allow the redhat.java extension to handle Language Server Protocol (LSP) requests.
+    // Note: this is a workaround for a bug in the interaction
+    // between the redhat.java and vscjava.vscode-gradle extensions.
+    // See Also: https://github.com/redhat-developer/vscode-java/issues/3775#issuecomment-2377976790
+    "gradle.autoDetect": "off",
+    "gradle.nestedProjects": true,
+    "java.gradle.buildServer.enabled": "off",
+    // Even then, some of the shadow jars are not detected.
+    "java.project.referencedLibraries": [
+        //"${workspaceFolder}/bundled-guava/build/libs/iceberg-bundled-guava-*-SNAPSHOT.jar",
+        "**/build/libs/*.jar"
+    ],
+    /*
+    // For debugging the Java Language Server.:w
+	"java.import.generatesMetadataFilesAtProjectRoot": true,
+	"java.debug.logLevel": "info",
+	"java.trace.server": "messages"
+    */
+}
