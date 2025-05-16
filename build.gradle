@@ -256,7 +256,6 @@ subprojects {
 }
 
 project(':iceberg-bundled-guava') {
-  //apply plugin: 'java'
   apply plugin: 'com.gradleup.shadow'
 
   tasks.jar.dependsOn tasks.shadowJar
@@ -297,31 +296,6 @@ project(':iceberg-bundled-guava') {
 
   artifacts {
     archives tasks.shadowJar
-  }
-
-  tasks.jar.configure {
-    enabled = false
-  }
-
-  //afterEvaluate {
-    configurations {
-      [runtimeClasspath, runtimeElements].each {
-          //println "Adding shadowJar to ${it.name}"
-          it.outgoing.artifacts.clear()
-          it.outgoing.artifact(tasks.shadowJar)
-      }
-    }
-  //}
-
-  task printConfigurations {
-    doLast {
-      configurations.each { config ->
-        println "Artifacts for configuration '${config.name}':"
-        config.allArtifacts.each { artifact ->
-          println "  - ${artifact.file}"
-        }
-      }
-    }
   }
 }
 
@@ -480,11 +454,6 @@ project(':iceberg-aliyun') {
     testImplementation platform(libs.jackson.bom)
     testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml"
     testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
-  }
-  // Add this task in B/build.gradle to see what it pulls in:
-  task copyDeps(type: Copy) {
-    from configurations.runtimeClasspath
-    into "$buildDir/deps"
   }
 }
 
