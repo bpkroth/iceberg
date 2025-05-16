@@ -255,6 +255,11 @@ subprojects {
   }
 }
 
+// This is a workaround for VSCode's redhat.java extension not picking up the
+// bundled-guava shadowJar dependency, so we add it explicitly
+def bundled_guava_jar_path = "${rootDir}/bundled-guava/build/libs/iceberg-bundled-guava-${projectVersion}.jar"
+def bundled_guava_test_jar_path = "${rootDir}/bundled-guava/build/libs/iceberg-bundled-guava-${projectVersion}-tests.jar"
+
 project(':iceberg-bundled-guava') {
   apply plugin: 'com.gradleup.shadow'
 
@@ -306,6 +311,7 @@ project(':iceberg-api') {
 
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     compileOnly libs.errorprone.annotations
     compileOnly libs.findbugs.jsr305
     testImplementation libs.avro.avro
@@ -340,6 +346,7 @@ project(':iceberg-common') {
   }
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
   }
 }
 
@@ -386,6 +393,7 @@ project(':iceberg-core') {
 project(':iceberg-data') {
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-core')
     compileOnly project(':iceberg-parquet')
@@ -434,8 +442,10 @@ project(':iceberg-aliyun') {
   test {
     useJUnitPlatform()
   }
+
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-core')
     implementation project(':iceberg-common')
@@ -463,6 +473,7 @@ project(':iceberg-aws') {
   }
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-common')
     implementation project(':iceberg-core')
@@ -554,6 +565,7 @@ project(':iceberg-azure') {
 
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-common')
     implementation project(':iceberg-core')
@@ -605,6 +617,7 @@ project(':iceberg-delta-lake') {
 
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-common')
     implementation project(':iceberg-core')
@@ -681,6 +694,7 @@ project(':iceberg-bigquery') {
     implementation project(':iceberg-core')
 
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
 
     implementation platform(libs.google.libraries.bom)
     compileOnly "com.google.cloud:google-cloud-storage"
@@ -706,6 +720,7 @@ project(':iceberg-gcp') {
 
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-common')
     implementation project(':iceberg-core')
@@ -737,6 +752,7 @@ project(':iceberg-hive-metastore') {
 
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     implementation project(':iceberg-core')
     api project(':iceberg-api')
     implementation project(':iceberg-common')
@@ -812,6 +828,7 @@ project(':iceberg-orc') {
   }
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-common')
     implementation project(':iceberg-core')
@@ -849,6 +866,7 @@ project(':iceberg-parquet') {
   }
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-core')
     implementation project(':iceberg-common')
@@ -876,6 +894,7 @@ project(':iceberg-arrow') {
   }
   dependencies {
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     api project(':iceberg-api')
     implementation project(':iceberg-core')
     implementation project(':iceberg-parquet')
@@ -920,6 +939,7 @@ project(':iceberg-nessie') {
     implementation project(':iceberg-common')
     implementation project(':iceberg-core')
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     implementation(libs.nessie.client) {
       exclude group: 'com.fasterxml.jackson'
     }
@@ -955,6 +975,7 @@ project(':iceberg-dell') {
     implementation project(':iceberg-core')
     implementation project(':iceberg-common')
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     compileOnly libs.object.client.bundle
 
     testImplementation project(path: ':iceberg-api', configuration: 'testArtifacts')
@@ -973,6 +994,7 @@ project(':iceberg-snowflake') {
     implementation project(':iceberg-core')
     implementation project(':iceberg-common')
     implementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    implementation files("${bundled_guava_jar_path}")
     implementation platform(libs.jackson.bom)
     implementation libs.jackson.core
     implementation libs.jackson.databind
@@ -1033,6 +1055,8 @@ project(':iceberg-open-api') {
       exclude group: 'com.github.pjfanning', module: 'jersey-json'
     }
     testFixturesImplementation project(path: ':iceberg-bundled-guava', configuration: 'shadow')
+    // FIXME?
+    //testFixturesImplementation files("${bundled_guava_test_jar_path}")
     testFixturesImplementation libs.junit.jupiter
 
     testFixturesImplementation libs.slf4j.api
